@@ -11,6 +11,8 @@ module Yasi
     end
     
     def find(search, conditions = nil)
+      conditions["_id"] = BSON::ObjectID(conditions["_id"]) if conditions && conditions["_id"]
+
       if search == :all
         return nil_or_array(@collection.find(conditions).to_a)
       else
@@ -23,7 +25,7 @@ module Yasi
     end
     
     def delete(id)
-      yasi = @collection.find_one(BSON::ObjectID(id))
+      yasi = @collection.find_one({ "_id" => BSON::ObjectID(id) })
       @collection.remove(yasi) if yasi
     end
     
