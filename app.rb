@@ -2,7 +2,7 @@ require 'sinatra'
 require 'lib/yasi'
 
 before do
-  Yasi.connect :server => "localhost", :port => 27017, :db => "yasi"
+  Yasi.connect
 end
 
 get '/' do
@@ -14,7 +14,7 @@ get '/new' do
   erb :new
 end
 
-# ok, it should be a delete method
+# should be a delete method
 get '/delete/:id' do
   Yasi.delete(params[:id])
   redirect "/"
