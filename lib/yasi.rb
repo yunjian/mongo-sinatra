@@ -16,7 +16,7 @@ module Yasi
       if search == :all
         return nil_or_array(@collection.find(conditions).to_a)
       else
-        return nil_or_array(@collection.find_one(conditions).to_a)
+        return @collection.find_one(conditions)
       end
     end
     

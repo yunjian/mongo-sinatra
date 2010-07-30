@@ -1,0 +1,15 @@
+<h1>Show</h1>
+
+<% if @yasi %>
+<ul>
+  <li>
+    <h2><%= @yasi["title"] %></h2>
+    <h3><%= @yasi["category"] %></h3>
+    <p><%= @yasi["description"] %></p>
+    <p><a href="/delete/<%= @yasi["_id"] %>">Delete this</a></p>
+  </li>
+  <% end %>
+</ul>
+<% else %>
+
+<a href="/">Go Back</a>

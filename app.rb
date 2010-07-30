@@ -15,8 +15,8 @@ get '/new' do
 end
 
 get '/show/:id' do
-  @yasis = Yasi.find :all, { "_id" => params[:id] }
-  erb :index
+  @yasi = Yasi.find :one, { "_id" => params[:id] }
+  erb :show
 end
 
 # should be a delete method
