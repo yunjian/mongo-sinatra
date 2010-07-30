@@ -6,7 +6,7 @@ before do
 end
 
 get '/' do
-  @yasis = Yasi.find :all
+  @yasis = Yasi.find :all, params[:yasi]
   erb :index
 end
 

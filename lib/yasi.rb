@@ -10,11 +10,11 @@ module Yasi
       @collection = @db.collection("yasis")
     end
     
-    def find(search)
+    def find(search, conditions = nil)
       if search == :all
-        return nil_or_array(@collection.find.to_a)
+        return nil_or_array(@collection.find(conditions).to_a)
       else
-        return find_with_criteria(search)
+        return nil_or_array(@collection.find_one(conditions).to_a)
       end
     end
     
@@ -29,16 +29,6 @@ module Yasi
     
     private
     
-      def find_with_criteria(search)
-        stringify_keys(search)
-        if search["author"]
-          author = @db.collection("author").find_one stringify_keys(search["author"])
-          return nil_or_array( @collection.find(author).to_a ) if author
-        else
-          return nil_or_array( @collection.find(search).to_a )
-        end
-      end
-      
       def stringify_keys(hash)
         hash.each_key do |key|
           hash[key.to_s] = hash.delete(key)
