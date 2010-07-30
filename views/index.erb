@@ -1,0 +1,18 @@
+<h1>YASIS</h1>
+
+<% if @yasis %>
+<ul>
+  <% @yasis.each do |yasi| %>
+  <li>
+    <h2><%= yasi["title"] %></h2>
+    <h3><%= yasi["category"] %></h3>
+    <p><%= yasi["description"] %></p>
+    <p><a href="/delete/<%= yasi["_id"] %>">Delete this</a></p>
+  </li>
+  <% end %>
+</ul>
+<% else %>
+No stupid idea
+<% end %>
+
+<a href="/new">Add new</a>
