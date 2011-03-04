@@ -1,0 +1,9 @@
+1. Install the MongoDB server.
+> sudo apt-get install mongodb
+
+2. Install gems
+> bundle install
+> gem install bson_ext
+> ruby -rubygems app.rb
+
+3. View at: localhost:4567

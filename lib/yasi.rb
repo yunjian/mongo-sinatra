@@ -4,14 +4,18 @@ require 'mongo'
 module Yasi
   class << self
     def connect
-      uri = URI.parse(ENV['MONGOHQ_URL'])
-      conn = Mongo::Connection.from_uri(ENV['MONGOHQ_URL'])
-      @db = conn.db(uri.path.gsub(/^\//, ''))
+      if ENV['MONGOHQ_URL']
+        uri = URI.parse(ENV['MONGOHQ_URL'])
+        conn = Mongo::Connection.from_uri(ENV['MONGOHQ_URL'])
+        @db = conn.db(uri.path.gsub(/^\//, ''))
+      else
+        @db = Mongo::Connection.new.db("mongo-sinatra-app")
+      end
       @collection = @db.collection("yasis")
     end
     
     def find(search, conditions = nil)
-      conditions["_id"] = BSON::ObjectID(conditions["_id"]) if conditions && conditions["_id"]
+      conditions["_id"] = BSON::ObjectId(conditions["_id"]) if conditions && conditions["_id"]
 
       if search == :all
         return nil_or_array(@collection.find(conditions).to_a)
@@ -25,7 +29,7 @@ module Yasi
     end
     
     def delete(id)
-      yasi = @collection.find_one({ "_id" => BSON::ObjectID(id) })
+      yasi = @collection.find_one({ "_id" => BSON::ObjectId(id) })
       @collection.remove(yasi) if yasi
     end
     
