@@ -1,7 +1,7 @@
 <% if @cnfs %>
 <ul>
   <% @cnfs.each do |cnf| %>
-  <li> <%= cnf["cnf"] %> </li>
+  <li> <a href="/show/<%= cnf["_id"] %>"><%= cnf["cnf"] %></a> </li>
   <% end %>
 </ul>
 <% else %>

@@ -14,6 +14,11 @@ get '/all' do
   erb :all
 end
 
+get '/show/:id' do
+  @cnf = Sat.find :one, { "_id" => params[:id] }
+  erb :show
+end
+
 get '/delete/:id' do
   Sat.delete(params[:id])
   redirect "/"
@@ -21,5 +26,5 @@ end
 
 post "/create" do
   Sat.save(params["cnf"])
-  redirect "/all"
+  redirect "/"
 end
