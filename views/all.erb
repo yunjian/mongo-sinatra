@@ -1,0 +1,9 @@
+<% if @cnfs %>
+<ul>
+  <% @cnfs.each do |cnf| %>
+  <li> <%= cnf["cnf"] %> </li>
+  <% end %>
+</ul>
+<% else %>
+No CNF.
+<% end %>

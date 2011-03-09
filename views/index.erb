@@ -1,17 +1,8 @@
-<h1>YASIS</h1>
+<h1>SAT</h1>
 
-<% if @yasis %>
-<ul>
-  <% @yasis.each do |yasi| %>
-  <li>
-    <h2><%= yasi["title"] %></h2>
-    <p><a href="/show/<%= yasi["_id"] %>">Details</a></p>
-    <p><a href="/delete/<%= yasi["_id"] %>">Delete this</a></p>
-  </li>
-  <% end %>
-</ul>
-<% else %>
-No stupid idea
-<% end %>
+<script type="text/javascript" src="/js/defaulttext.js"></script>
 
-<a href="/new">Add new</a>
+<form action="/create" method="post">
+  <p><input type="text" name="cnf[cnf]" id="" class="cleardefault" value="Type a CNF expression" /></p>
+  <p><input type="submit" value="Solve" /></p>
+</form>

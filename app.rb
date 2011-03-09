@@ -1,31 +1,25 @@
 require 'sinatra'
-require 'lib/yasi'
+require 'lib/sat'
 
 before do
-  Yasi.connect
+  Sat.connect
 end
 
 get '/' do
-  @yasis = Yasi.find :all, params[:yasi]
   erb :index
 end
 
-get '/new' do
-  erb :new
+get '/all' do
+  @cnfs = Sat.find :all, params[:cnf]
+  erb :all
 end
 
-get '/show/:id' do
-  @yasi = Yasi.find :one, { "_id" => params[:id] }
-  erb :show
-end
-
-# should be a delete method
 get '/delete/:id' do
-  Yasi.delete(params[:id])
+  Sat.delete(params[:id])
   redirect "/"
 end
 
 post "/create" do
-  Yasi.save(params["yasi"])
-  redirect "/"
+  Sat.save(params["cnf"])
+  redirect "/all"
 end

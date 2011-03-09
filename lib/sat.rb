@@ -1,7 +1,7 @@
 require 'uri'
 require 'mongo'
 
-module Yasi
+module Sat
   class << self
     def connect
       if ENV['MONGOHQ_URL']
@@ -11,7 +11,7 @@ module Yasi
       else
         @db = Mongo::Connection.new.db("mongo-sinatra-app")
       end
-      @collection = @db.collection("yasis")
+      @collection = @db.collection("cnfs")
     end
     
     def find(search, conditions = nil)
@@ -24,13 +24,13 @@ module Yasi
       end
     end
     
-    def save(yasi)
-      @collection.save(yasi)
+    def save(cnf)
+      @collection.save(cnf)
     end
     
     def delete(id)
-      yasi = @collection.find_one({ "_id" => BSON::ObjectId(id) })
-      @collection.remove(yasi) if yasi
+      cnf = @collection.find_one({ "_id" => BSON::ObjectId(id) })
+      @collection.remove(cnf) if cnf
     end
     
     private
