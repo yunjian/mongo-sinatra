@@ -26,5 +26,10 @@ end
 
 post "/create" do
   id = Sat.save(params["cnf"])
-  redirect "/show/#{id}"
+  if id
+    redirect "/show/#{id}"
+  else
+    @notice = "Could not recognize input expression. Please try again."
+    redirect "/"
+  end
 end

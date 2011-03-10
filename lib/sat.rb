@@ -26,10 +26,16 @@ module Sat
     end
     
     def save(cnf)
-      kb = KnowledgeBase.new(cnf["cnf"])
+      if cnf["cnf"] =~ /and/ && cnf["cnf"] =~ /or/
+        kb = KnowledgeBase.new(cnf["cnf"])
+      elsif cnf["cnf"] =~ /\s0$/
+        kb = KnowledgeBase.new(cnf["cnf"], :dimacs)
+      else
+        return nil
+      end
       cnf["satisfiable"] = kb.dpll
       cnf["assignment"]  = kb.solution
-      return @collection.save(cnf)
+      @collection.save(cnf)
     end
     
     def delete(id)

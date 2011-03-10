@@ -98,7 +98,7 @@ end
 class KnowledgeBase
 
 	
-	def initialize(preposition)
+	def initialize(preposition, format= :preposition)
 ###############################################
 #	puts "in intialize!"
 	
@@ -108,11 +108,43 @@ class KnowledgeBase
 	@assignment = Array.new
 	@id_array = []
 	
-	self.input(preposition)
+	self.input(preposition, format)
 
 	end
 	
 	attr_accessor :total_variables, :name_hash, :kb, :id_array, :assignment
+
+    # parse standard DIMACS format without 
+    # (1) comments start with 'c' and (2) counting starts with 'p'
+    # e.g. "1 -5 4 0 -1 5 3 4 0 -3 -4 0"
+	def dimacs_to_internal(dimacs)
+		temp_kb =Array.new
+		dimacs_array = dimacs.split
+		sentence = []
+		dimacs_array.each  do |word|
+			if (word == "0")
+				temp_kb << sentence
+				sentence = []
+			else
+			    negated = false
+                if(word[0].chr == '-')
+                    negated = true
+                    word.slice!(0)
+                end
+				temp = @name_hash[word]
+				if(temp == nil)
+					temp_var = Literalzs.new(word,@total_variables)
+					@id_array.push(temp_var)
+					@name_hash[word] = @total_variables
+					temp = @total_variables	
+					@total_variables+=1
+				end
+				temp = temp.to_i * -1 if negated
+				sentence << temp
+			end
+		end
+		temp_kb
+	end	
 
 	#takes a string preposistion and turns it into a 2d array ands of ors with id numbers +- depending on negation
 	def string_to_internal(preposition)
@@ -163,8 +195,12 @@ class KnowledgeBase
 
 	#private function to read input, called in intialize 
 	#in creation of knowledge base and when adding to knowledge base
-	def input(prepositions)
-		@kb = string_to_internal(prepositions)
+	def input(prepositions, format= :preposition)
+        if format == :dimacs
+		    @kb = dimacs_to_internal(prepositions)
+        else
+		    @kb = string_to_internal(prepositions)
+        end
 	end	
 	
 	#calls in sequence, could add logic to remove instead, but rather not make it public
