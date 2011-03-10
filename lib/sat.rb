@@ -1,5 +1,6 @@
 require 'uri'
 require 'mongo'
+require 'lib/dpll'
 
 module Sat
   class << self
@@ -25,7 +26,10 @@ module Sat
     end
     
     def save(cnf)
-      @collection.save(cnf)
+      kb = KnowledgeBase.new(cnf["cnf"])
+      cnf["satisfiable"] = kb.dpll
+      cnf["assignment"]  = kb.solution
+      return @collection.save(cnf)
     end
     
     def delete(id)

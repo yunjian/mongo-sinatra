@@ -25,6 +25,6 @@ get '/delete/:id' do
 end
 
 post "/create" do
-  Sat.save(params["cnf"])
-  redirect "/"
+  id = Sat.save(params["cnf"])
+  redirect "/show/#{id}"
 end
