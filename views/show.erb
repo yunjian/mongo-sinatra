@@ -9,8 +9,12 @@
     <% else %>
         <p>Cannot determine solution.</p>
     <% end %>
-    <br /><br /><br />
-    <small><a href="/delete/<%= @cnf["_id"] %>">Delete this</a> | </small>
 <% end %>
 
-<small><a href="/all">Go Back</a></small>
+<br /><br /><br />
+<small><a href="/">Go Back</a></small>
+
+
+<% if @cnf %>
+<div class="invisible"><a href="/delete/<%= @cnf["_id"] %>">Delete this</a></div>
+<% end %>
