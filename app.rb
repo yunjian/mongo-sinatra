@@ -30,6 +30,6 @@ post "/create" do
     redirect "/show/#{id}"
   else
     @notice = "Could not recognize input expression. Please try again."
-    redirect "/"
+    erb :index
   end
 end
