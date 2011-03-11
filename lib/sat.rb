@@ -26,15 +26,39 @@ module Sat
     end
     
     def save(cnf)
+      # lookup database for solved cases
+      old = find :one, { "cnf" => cnf["cnf"] }
+      return old["_id"] if old
+
       if cnf["cnf"] =~ /and/ && cnf["cnf"] =~ /or/
+        # use DPLL for preposition
+        # TODO: set time limit
         kb = KnowledgeBase.new(cnf["cnf"])
+        cnf["satisfiable"] = kb.dpll ? 1 : 0
+        cnf["assignment"]  = kb.solution
+
       elsif cnf["cnf"] =~ /\s0$/
-        kb = KnowledgeBase.new(cnf["cnf"], :dimacs)
+        # use minisat for dimacs
+        # kb = KnowledgeBase.new(cnf["cnf"], :dimacs)
+        # TODO: generate random file name
+        File.open("/tmp/minisat.dimacs", 'w') {|f| f.write(cnf["cnf"]) }
+        mini = `minisat -cpu-lim=5 /tmp/minisat.dimacs /tmp/minisat.out`
+        if mini =~ /UNSATISFIABLE/
+          cnf["satisfiable"] = 0
+        elsif mini =~ /SATISFIABLE/
+          cnf["satisfiable"] = 1
+          output = File.read("/tmp/minisat.out")
+          output.slice!(0..2)
+          output.slice!(output.length-2)
+          cnf["assignment"] = output
+        else
+          cnf["satisfiable"] = 2
+        end
+
       else
         return nil
       end
-      cnf["satisfiable"] = kb.dpll
-      cnf["assignment"]  = kb.solution
+
       @collection.save(cnf)
     end
     

@@ -1,11 +1,13 @@
 
 <% if @cnf %>
     <h2><%= @cnf["cnf"] %></h2>
-    <% if @cnf["satisfiable"] %>
+    <% if @cnf["satisfiable"] == 1 %>
         <p>Satisfiable. One assignment is <%= @cnf["assignment"] %>.
         </p>
-    <% else %>
+    <% elsif @cnf["satisfiable"] == 0 %>
         <p>Not satisfiable.</p>
+    <% else %>
+        <p>Cannot determine solution.</p>
     <% end %>
     <br /><br /><br />
     <small><a href="/delete/<%= @cnf["_id"] %>">Delete this</a> | </small>
