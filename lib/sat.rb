@@ -42,7 +42,7 @@ module Sat
         # kb = KnowledgeBase.new(cnf["cnf"], :dimacs)
         # TODO: generate random file name
         File.open("/tmp/minisat.dimacs", 'w') {|f| f.write(cnf["cnf"]) }
-        mini = `minisat -cpu-lim=5 /tmp/minisat.dimacs /tmp/minisat.out`
+        mini = `bin/minisat -cpu-lim=5 /tmp/minisat.dimacs /tmp/minisat.out`
         if mini =~ /UNSATISFIABLE/
           cnf["satisfiable"] = 0
         elsif mini =~ /SATISFIABLE/
