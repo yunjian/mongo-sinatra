@@ -1,5 +1,6 @@
 require 'uri'
 require 'mongo'
+require 'timeout'
 require 'lib/dpll'
 
 module Sat
@@ -32,10 +33,15 @@ module Sat
 
       if cnf["cnf"] =~ /and/ && cnf["cnf"] =~ /or/
         # use DPLL for preposition
-        # TODO: set time limit
         kb = KnowledgeBase.new(cnf["cnf"])
-        cnf["satisfiable"] = kb.dpll ? 1 : 0
-        cnf["assignment"]  = kb.solution
+        begin
+          Timeout::timeout(5) do
+            cnf["satisfiable"] = kb.dpll ? 1 : 0
+            cnf["assignment"]  = kb.solution
+          end
+        rescue Timeout::Error
+          cnf["satisfiable"] = 2
+        end
 
       elsif cnf["cnf"] =~ /\s0$/
         # use minisat for dimacs
