@@ -31,7 +31,11 @@ module Sat
       old = find :one, { "cnf" => cnf["cnf"] }
       return old["_id"] if old
 
-      if cnf["cnf"] =~ /and/ && cnf["cnf"] =~ /or/
+      if cnf["cnf"] =~ /Type a CNF expression or DIMACS, for example/
+        cnf["satisfiable"] = 1
+        cnf["assignment"]  = "Don't be lazy. Type in an expression before hitting the 'Solve' button."
+
+      elsif cnf["cnf"] =~ /and/ && cnf["cnf"] =~ /or/
         # use DPLL for preposition
         kb = KnowledgeBase.new(cnf["cnf"])
         begin
