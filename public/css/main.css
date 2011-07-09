@@ -1,8 +1,10 @@
 body{color:#333;font-size:14px;font-family:"Helvetica Neue", "Helvetica", "Arial", sans-serif;text-align:center;margin:100px 0;}
 p{margin:5px 0;}
 h2{margin:10px;}
-input[type=text]{padding:5px;width:550px;}
+input[type=text]{padding:5px;width:600px;}
 input[type=submit], input[type=button] {padding: 5px 10px;font-weight: bold;}
 #content{margin:20px;}
 .clear {clear: both;}
 .invisible a{color:#FFF;font-size:10px;position:fixed;bottom:1px;}
+#content .description {width:400px; text-align:left; margin:0 auto;}
+#content .description li {list-style: none;}
