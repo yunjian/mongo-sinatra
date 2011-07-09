@@ -6,5 +6,5 @@ input[type=submit], input[type=button] {padding: 5px 10px;font-weight: bold;}
 #content{margin:20px;}
 .clear {clear: both;}
 .invisible a{color:#FFF;font-size:10px;position:fixed;bottom:1px;}
-#content .description {width:400px; text-align:left; margin:0 auto;}
+#content .description {width:540px; text-align:left; margin:0 auto;}
 #content .description li {list-style: none;}
